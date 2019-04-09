@@ -26,7 +26,7 @@ public class FragmentProducts extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
 
-        recyclerViewProducts = (RecyclerView) view.findViewById(R.id.products_list);
+        recyclerViewProducts = view.findViewById(R.id.products_list);
         ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), products);
         recyclerViewProducts.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerViewProducts.setAdapter(productsAdapter);
@@ -42,17 +42,17 @@ public class FragmentProducts extends Fragment {
 
     private void createListData(){
         Product product;
-        product = new Product("Nasi Goreng", 43000);
+        product = new Product("Cappucino", 43000);
         products.add(product);
 
-        product = new Product("Nasi Goreng", 43000);
+        product = new Product("Americano", 45000);
         products.add(product);
 
 
-        product = new Product("Nasi Goreng", 43000);
+        product = new Product("Caramel Macchiato", 56000);
         products.add(product);
 
-        product = new Product("Nasi Goreng", 43000);
+        product = new Product("Breakfast Tea", 28000);
         products.add(product);
 
     }
