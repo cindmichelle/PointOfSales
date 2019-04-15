@@ -17,7 +17,10 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment fragmentProducts = new FragmentProducts();
-        fragmentTransaction.replace(R.id.fragment_products, fragmentProducts);
+        fragmentTransaction.replace(R.id.main_activity_fragment_products, fragmentProducts);
+
+        Fragment fragmentDetails = new FragmentDetails();
+        fragmentTransaction.replace(R.id.main_activity_fragment_details, fragmentDetails);
 
         fragmentTransaction.commit();
     }
