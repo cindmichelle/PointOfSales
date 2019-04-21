@@ -1,16 +1,14 @@
 package id.ac.umn.pointofsales;
 
-public class Product {
+public class DetailsOrder {
     private String name;
     private int price;
     private String id;
-    private int qty;
 
-    public Product(String id, String name, int price) {
+    public DetailsOrder(String id, String name, int price) {
         this.name = name;
         this.price = price;
         this.id = id;
-        this.qty = 0;
     }
 
     public String getId() {
@@ -20,6 +18,7 @@ public class Product {
     public void setId(String id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -35,17 +34,5 @@ public class Product {
 
     public void setPrice(int price) {
         this.price = price;
-    }
-
-    public int getQty() {
-        return qty;
-    }
-
-    public void minusQty() {
-        this.qty--;
-    }
-
-    public void plusQty(){
-        this.qty++;
     }
 }

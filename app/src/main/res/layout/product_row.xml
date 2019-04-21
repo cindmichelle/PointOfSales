@@ -28,6 +28,7 @@
             android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/coco_gothic_bold_trial"
             android:paddingVertical="4dp"
             android:paddingHorizontal="1dp"
             android:textSize="18sp"
