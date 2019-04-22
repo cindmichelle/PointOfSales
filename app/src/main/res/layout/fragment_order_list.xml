@@ -42,6 +42,7 @@
         android:background="@drawable/border_detailorder">
 
         <Button
+            android:id="@+id/payment_btn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="B A Y A R"
