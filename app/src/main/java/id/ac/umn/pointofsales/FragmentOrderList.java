@@ -48,7 +48,7 @@ public class FragmentOrderList extends Fragment implements Serializable{
             @Override
             public void onClick(View view) {
                 DialogFragment paymentFragment = new PaymentSelectionPopup();
-                paymentFragment.show(getFragmentManager(), "yes");
+                paymentFragment.show(getFragmentManager(), "PAYMENT SELECTION");
             }
         });
         return view;

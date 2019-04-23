@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/PopupTitle"
+        android:height="31dp"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:lineSpacingMultiplier="1.33"
+        android:text="METODE PEMBAYARAN"
+        android:width="296dp"
+        android:layout_marginVertical="23dp"
+        android:layout_marginLeft="28dp"/>
+
+
+    <View android:background="#000"
+        android:layout_width = "match_parent"
+        android:layout_height="1dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="56dp"
+        android:orientation="vertical">
+        <LinearLayout
+            style="@style/cashPopUpTextWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                style="@style/cashPopUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yang harus dibayar" />
+
+            <TextView
+                android:layout_weight="4"
+                android:id="@+id/shouldPayText"
+                style="@style/cashPopUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-light"
+                android:text="Rp 100,000.00" />
+
+        </LinearLayout>
+        <View android:background="#000"
+            android:layout_width = "match_parent"
+            android:layout_height="1dp" />
+        <LinearLayout
+            style="@style/cashPopUpTextWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                style="@style/cashPopUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jumlah Uang Terbayar" />
+
+            <TextView
+                android:layout_weight="4"
+                android:id="@+id/paidText"
+                style="@style/cashPopUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:fontFamily="sans-serif-light"
+                android:text="Rp 99,000.00" />
+
+        </LinearLayout>
+        <View android:background="#000"
+            android:layout_width = "match_parent"
+            android:layout_height="1dp" />
+        <LinearLayout
+            style="@style/cashPopUpTextWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_weight="1"
+                style="@style/cashPopUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Kembalian" />
+
+            <TextView
+                android:layout_weight="4"
+                android:id="@+id/changeText"
+                style="@style/cashPopUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewEnd"
+                android:fontFamily="sans-serif-light"
+                android:text="Rp 1,000.00" />
+
+        </LinearLayout>
+        <View android:background="#000"
+            android:layout_width = "match_parent"
+            android:layout_height="1dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:paddingBottom="28dp"
+        android:paddingRight="33dp">
+
+        <Button
+            android:id="@+id/cancel_cash_selection_btn"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:paddingVertical="8dp"
+            android:text="KEMBALI"
+            android:background="@drawable/button_border"
+            android:layout_marginRight="15dp"/>
+
+        <Button
+            android:id="@+id/confirm_cash_selection_btn"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:paddingVertical="8dp"
+            android:text="KONFIRMASI"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/button_border"
+            android:backgroundTint="#FFFFB335"/>
+
+    </LinearLayout>
+
+</LinearLayout>

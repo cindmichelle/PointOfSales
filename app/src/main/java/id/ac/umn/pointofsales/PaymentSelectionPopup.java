@@ -31,7 +31,7 @@ public class PaymentSelectionPopup extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View popUpDialog = inflater.inflate(R.layout.activity_payment_selection, null);
+        View popUpDialog = inflater.inflate(R.layout.popup_payment_selection, null);
 
         builder.setView(popUpDialog);
 
@@ -79,7 +79,15 @@ public class PaymentSelectionPopup extends DialogFragment {
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(confirmBtn.getContext(),"hello", Toast.LENGTH_SHORT).show();
+
+                if(paymentMethod == 0){
+                    dismiss();
+                    DialogFragment cashSelectionPopup = new CashSelectionPopup();
+                    cashSelectionPopup.show(getFragmentManager(), "CASH SELECTION");
+                }
+                else {
+                    Toast.makeText(confirmBtn.getContext(),"Still on Progress", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
