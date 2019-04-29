@@ -76,6 +76,8 @@ public class FragmentProducts extends Fragment implements Serializable {
                             for(DocumentSnapshot document : task.getResult()){
                                 Product product = document.toObject(Product.class);
                                 product.setId(document.getId());
+                                product.setImageUrl(document.getString("image_url"));
+                                Log.d(TAG,"DER  " + product.getImageUrl());
                                 products.add(product);
                             }
 
@@ -101,6 +103,7 @@ public class FragmentProducts extends Fragment implements Serializable {
 
             Product order;
             order = new Product(name, "", price);
+            order.setId(id);
 
             if(orders.size() > 0){
                 for(int i = 0; i < orders.size(); i++){
