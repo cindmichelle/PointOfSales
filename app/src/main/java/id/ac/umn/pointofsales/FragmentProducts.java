@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
@@ -31,9 +32,11 @@ public class FragmentProducts extends Fragment implements Serializable {
 
     private RecyclerView recyclerViewProducts;
     private ArrayList<Product> products = new ArrayList<>();
+    private String menu;
     ArrayList<Product> orders = new ArrayList<>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Nullable
     @Override
@@ -43,6 +46,10 @@ public class FragmentProducts extends Fragment implements Serializable {
         View view = inflater.inflate(R.layout.fragment_products, container, false);
 
         recyclerViewProducts = view.findViewById(R.id.products_list);
+
+        if(getArguments()!= null){
+            onChangeMenu(getArguments().getString("menu"));
+        }
         Log.d(TAG, "onCreateView Fragment Product");
 
         recyclerViewProducts.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -54,6 +61,13 @@ public class FragmentProducts extends Fragment implements Serializable {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate Fragment Product");
+//        getBeveragesCollections();
+
+    }
+
+    public void onChangeMenu(String text){
+        this.menu = text;
+        Log.d(TAG, "clicked 3, menu : " + text);
         getBeveragesCollections();
 
     }
@@ -64,7 +78,7 @@ public class FragmentProducts extends Fragment implements Serializable {
             products.clear();
         }
 
-        CollectionReference collectionReference = db.collection("beverages");
+        Query collectionReference = db.collection("menus").whereEqualTo("category", menu);
 
         collectionReference.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
