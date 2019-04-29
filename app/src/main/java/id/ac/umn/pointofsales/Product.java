@@ -1,15 +1,19 @@
 package id.ac.umn.pointofsales;
 
 public class Product {
+    private String id;
     private String name;
     private int price;
-    private String id;
+    private String imageUrl;
     private int qty;
 
-    public Product(String id, String name, int price) {
+    public Product(){}
+
+    public Product(String name, String imageUrl, int price) {
+        this.id = "";
         this.name = name;
         this.price = price;
-        this.id = id;
+        this.imageUrl = imageUrl;
         this.qty = 0;
     }
 
@@ -47,5 +51,13 @@ public class Product {
 
     public void plusQty(){
         this.qty++;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

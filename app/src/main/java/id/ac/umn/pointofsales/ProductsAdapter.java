@@ -13,8 +13,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import static android.content.ContentValues.TAG;
 
-public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductHolder> {
+
+public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ProductHolder>{
 
     private Context context;
     private ArrayList<Product> products;
@@ -35,12 +37,15 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
     @NonNull
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+        Log.d(TAG, "onCreateViewHolder ProductAdapter");
         View view = LayoutInflater.from(context).inflate(R.layout.product_row, parent, false);
         return new ProductHolder(view, mCommunicator);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder ProductAdapter");
+
         product = products.get(position);
         holder.setDetails(product);
     }
@@ -57,6 +62,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
 
         public ProductHolder(View itemView, FragmentCommunication Communicator) {
             super(itemView);
+            Log.d(TAG, "ProductHolder ProductAdapter");
+
             txtName = itemView.findViewById(R.id.txtName);
             txtPrice = itemView.findViewById(R.id.txtPrice);
             txtQty = itemView.findViewById(R.id.txtQty);
@@ -91,6 +98,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Produc
         }
 
         public void setDetails(Product product){
+            Log.d(TAG, "setDetails ProductAdapter");
+
+            Log.d(TAG, "DocumentSnapshot data: " + product.getName() + "  DARRRR");
             txtName.setText(product.getName());
             Log.d(this.getClass().toString(),"ID barang: " + product.getId());
             txtPrice.setText(String.format(Locale.US, "Rp %,d.00", product.getPrice()));
