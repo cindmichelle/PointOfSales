@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1014485775122",
+    "firebase_url": "https://pointofsales-app.firebaseio.com",
+    "project_id": "pointofsales-app",
+    "storage_bucket": "pointofsales-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014485775122:android:c9eafcf899994bbf",
+        "android_client_info": {
+          "package_name": "id.ac.umn.pointofsales"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1014485775122-mrb6j9ntp5ujav5ukhtnaaaepkj5s29c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.ac.umn.pointofsales",
+            "certificate_hash": "fdaf711f6a576ccfd46062a858e54c0c955b878f"
+          }
+        },
+        {
+          "client_id": "1014485775122-v9vfqj35lrglnh61fcrlmhirtb7i703o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfj6QW3PjYH_EdC0oenx4VLLWbspcGPxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014485775122-v9vfqj35lrglnh61fcrlmhirtb7i703o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
