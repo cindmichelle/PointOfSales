@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/coco_gothic_bold_trial"
+            android:textColor="@color/colorPrimaryDark"
             android:paddingVertical="4dp"
             android:paddingHorizontal="1dp"
             android:textSize="18sp"
@@ -38,6 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
+            android:textColor="@color/colorOrange"
+            android:fontFamily="@font/glacialindifference_bold"
             android:padding="1dp"
             tools:text="Product Price" />
 
