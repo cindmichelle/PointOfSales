@@ -39,4 +39,10 @@
         <item name="android:paddingBottom">16dp</item>
     </style>
 
+    <style name="menuText">
+        <item name="android:fontFamily">@font/coco_gothic_bold_trial</item>
+        <item name="android:textColor">#FF1F1F1F</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

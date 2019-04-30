@@ -68,6 +68,5 @@ public class FragmentOrderList extends Fragment implements Serializable{
         for(int i = 0; i < detailsOrder.size();i++){
            orderLists.add(detailsOrder.get(i));
         }
-
     }
 }

@@ -7,28 +7,35 @@
     tools:context=".MainActivity"
     android:baselineAligned="false" android:orientation="horizontal">
 
-    <LinearLayout
+    <!--<LinearLayout-->
+        <!--android:layout_weight=".6"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="test"/>-->
+
+    <!--</LinearLayout>-->
+
+    <FrameLayout
         android:layout_weight=".6"
+        android:id="@+id/main_activity_fragment_menus"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="test"/>
+        android:layout_height="match_parent" />
 
-    </LinearLayout>
-        <FrameLayout
-            android:layout_weight="0.3"
-            android:id="@+id/main_activity_fragment_products"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <FrameLayout
+        android:layout_weight="0.3"
+        android:id="@+id/main_activity_fragment_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
-        <FrameLayout
-            android:layout_weight="0.5"
-            android:id="@+id/main_activity_fragment_order_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <FrameLayout
+        android:layout_weight="0.5"
+        android:id="@+id/main_activity_fragment_order_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>
