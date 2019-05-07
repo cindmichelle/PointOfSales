@@ -2,22 +2,51 @@ package id.ac.umn.pointofsales;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.WriteResult;
+
+import java.io.InputStream;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class CashSelectionPopup extends DialogFragment {
+import static android.content.ContentValues.TAG;
+
+public class CashSelectionPopup extends DialogFragment implements Serializable{
 
     Button confirmBtn;
     Button cancelBtn;
+    private ArrayList<Product> products = new ArrayList<>();
+    IntentFilter intentFilter;
+    SweetAlertDialog pDialog;
+    boolean sukses;
+    boolean complete = false;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -28,21 +57,30 @@ public class CashSelectionPopup extends DialogFragment {
 
         builder.setView(popUpDialog);
 
+        complete = false;
+
         confirmBtn = popUpDialog.findViewById(R.id.confirm_cash_selection_btn);
         cancelBtn = popUpDialog.findViewById(R.id.cancel_cash_selection_btn);
 
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("konfirmasi_data");
+        getActivity().registerReceiver(uploadDataCompleteReceiver, intentFilter);
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(confirmBtn.getContext(),"hello", Toast.LENGTH_SHORT).show();
                 dismiss();
-                SweetAlertDialog pDialog = new SweetAlertDialog(confirmBtn.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog = new SweetAlertDialog(confirmBtn.getContext(), SweetAlertDialog.PROGRESS_TYPE);
                 pDialog.setTitleText("\n\nPembayaran Diproses");
                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#FFBA00"));
                 pDialog.getProgressHelper().setCircleRadius(196);
                 pDialog.setCancelable(false);
                 pDialog.show();
+
+                UploadDataTask uploadDataTask = new UploadDataTask(products, getContext());
+                uploadDataTask.execute();
+
             }
         });
 
@@ -59,4 +97,54 @@ public class CashSelectionPopup extends DialogFragment {
 
         return builder.create();
     }
+
+
+    class UploadDataTask extends AsyncTask<Product, String, String>{
+        ArrayList<Product> product;
+        Context context;
+        public UploadDataTask(ArrayList<Product> products, Context context) {
+            this.product = products;
+            this.context = context;
+        }
+
+        @Override
+        protected String doInBackground(Product... products) {
+            uploadDataBroadcast();
+            return null;
+        }
+
+        protected void onPostExecute(String result){
+            pDialog.setTitleText("Success!")
+                    .setContentText("Transaksi berhasil!")
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+//            Intent intent;
+//            intent = new Intent(context, testActivity.class);
+//            startActivity(intent);
+            Intent intent = new Intent();
+            intent.setAction("move_activity");
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            Log.d(this.getClass().toString(),"isi context : " + context);
+            context.sendBroadcast(intent);
+
+        }
+    }
+    public void uploadDataBroadcast(){
+        Intent intent = new Intent();
+        intent.setAction("upload_data");
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        getContext().sendBroadcast(intent);
+    }
+
+    private BroadcastReceiver uploadDataCompleteReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            context.unregisterReceiver(uploadDataCompleteReceiver);
+            Bundle args = intent.getBundleExtra("BUNDLE");
+            ArrayList<Product> orders = (ArrayList<Product>)  args.getSerializable("orderList");
+            Map<String, Object> docData = new HashMap<>();
+            docData.put("transaksi", orders);
+            Log.d(this.getClass().toString(),"masuk broadcast transaksi");
+            db.collection("transaksi").add(docData);
+        }
+    };
 }

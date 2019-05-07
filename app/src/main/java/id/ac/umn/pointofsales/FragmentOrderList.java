@@ -12,9 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FragmentOrderList extends Fragment implements Serializable{
 
@@ -22,6 +24,8 @@ public class FragmentOrderList extends Fragment implements Serializable{
     private OrderListAdapter orderListAdapter;
     private ArrayList<Product> orderLists = new ArrayList<>();
     Button payment_btn;
+    TextView total_payment;
+    int totalPayment = 0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,7 +46,14 @@ public class FragmentOrderList extends Fragment implements Serializable{
             layoutManager = new LinearLayoutManager(getActivity());
             recyclerViewOrderList.setLayoutManager(layoutManager);
             recyclerViewOrderList.setAdapter(orderListAdapter);
-        }
+            total_payment = view.findViewById(R.id.total_payment);
+
+            totalPayment = 0;
+            for(int i = 0; i < orderLists.size(); i++){
+                totalPayment = totalPayment + orderLists.get(i).getQty() * orderLists.get(i).getPrice();
+            }
+            total_payment.setText(String.format(Locale.US, "Rp %,d.00", totalPayment));
+         }
 
         payment_btn.setOnClickListener(new View.OnClickListener() {
             @Override
