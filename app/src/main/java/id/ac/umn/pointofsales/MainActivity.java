@@ -1,5 +1,9 @@
 package id.ac.umn.pointofsales;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +16,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements FragmentMenu.FragmentListener {
+
+    IntentFilter intentFilter;
 
 
 
@@ -33,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements FragmentMenu.Frag
         fragmentTransaction.replace(R.id.main_activity_fragment_order_list, fragmentOrderList);
 
         fragmentTransaction.commit();
+
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("move_activity");
+
+        registerReceiver(moveActivity, intentFilter);
     }
 
     @Override
@@ -59,4 +70,15 @@ public class MainActivity extends AppCompatActivity implements FragmentMenu.Frag
                     .commit();
         }
     }
+
+
+
+    private BroadcastReceiver moveActivity = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            unregisterReceiver(moveActivity);
+            Intent i = new Intent(MainActivity.this, testActivity.class);
+            startActivity(i);
+        }
+    };
 }

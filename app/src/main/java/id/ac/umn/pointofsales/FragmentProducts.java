@@ -1,5 +1,9 @@
 package id.ac.umn.pointofsales;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,8 +19,10 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -24,6 +30,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
@@ -36,7 +44,8 @@ public class FragmentProducts extends Fragment implements Serializable {
     ArrayList<Product> orders = new ArrayList<>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    BroadcastReceiver receiver;
+    IntentFilter intentFilter;
 
     @Nullable
     @Override
@@ -63,6 +72,10 @@ public class FragmentProducts extends Fragment implements Serializable {
         Log.d(TAG, "onCreate Fragment Product");
 //        getBeveragesCollections();
 
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("upload_data");
+
+        getActivity().registerReceiver(mintaDataReceiver, intentFilter);
     }
 
     public void onChangeMenu(String text){
@@ -158,6 +171,22 @@ public class FragmentProducts extends Fragment implements Serializable {
 
             fragmentTransaction.replace(R.id.main_activity_fragment_order_list, fragmentOrderList);
             fragmentTransaction.commit();
+        }
+    };
+
+    private BroadcastReceiver mintaDataReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(this.getClass().toString(),"context dalam receiver" + context);
+            context.unregisterReceiver(mintaDataReceiver);
+            Intent i = new Intent();
+            Bundle args = new Bundle();
+            args.putSerializable("orderList", orders);
+            i.putExtra("BUNDLE", args);
+            i.setAction("konfirmasi_data");
+            i.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            context.sendBroadcast(i);
+            Log.d(this.getClass().toString(),"Masuk ke broadcast product5");
         }
     };
 }
