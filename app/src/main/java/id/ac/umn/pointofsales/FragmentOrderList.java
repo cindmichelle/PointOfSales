@@ -52,6 +52,8 @@ public class FragmentOrderList extends Fragment implements Serializable{
             for(int i = 0; i < orderLists.size(); i++){
                 totalPayment = totalPayment + orderLists.get(i).getQty() * orderLists.get(i).getPrice();
             }
+
+
             total_payment.setText(String.format(Locale.US, "Rp %,d.00", totalPayment));
          }
 
@@ -59,6 +61,9 @@ public class FragmentOrderList extends Fragment implements Serializable{
             @Override
             public void onClick(View view) {
                 DialogFragment paymentFragment = new PaymentSelectionPopup();
+                Bundle args = new Bundle();
+                args.putInt("totalPayment", totalPayment);
+                paymentFragment.setArguments(args);
                 paymentFragment.show(getFragmentManager(), "PAYMENT SELECTION");
             }
         });

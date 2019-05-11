@@ -66,18 +66,29 @@
                 style="@style/cashPopUpText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Jumlah Uang Terbayar" />
+                android:text="Jumlah Uang Terbayar"
+                android:paddingVertical="15dp"/>
 
-            <TextView
-                android:layout_weight="4"
-                android:id="@+id/paidText"
-                style="@style/cashPopUpText"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
-                android:fontFamily="sans-serif-light"
-                android:text="Rp 99,000.00" />
 
+                android:layout_weight="4">
+                <TextView
+                    android:layout_weight="4"
+                    android:id="@+id/paidText"
+                    style="@style/cashPopUpText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Rp "/>
+                <EditText
+                    android:id="@+id/paidEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="0"/>
+            </LinearLayout>
         </LinearLayout>
         <View android:background="#000"
             android:layout_width = "match_parent"

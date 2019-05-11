@@ -35,6 +35,10 @@ public class PaymentSelectionPopup extends DialogFragment {
 
         builder.setView(popUpDialog);
 
+
+
+
+
         cashBtn = popUpDialog.findViewById(R.id.cash_btn);
         creditBtn = popUpDialog.findViewById(R.id.credit_btn);
         debitBtn = popUpDialog.findViewById(R.id.debit_btn);
@@ -83,6 +87,10 @@ public class PaymentSelectionPopup extends DialogFragment {
                 if(paymentMethod == 0){
                     dismiss();
                     DialogFragment cashSelectionPopup = new CashSelectionPopup();
+                    Bundle mArgs = getArguments();
+                    int totalPayment = mArgs.getInt("totalPayment");
+                    mArgs.putInt("totalPayment", totalPayment);
+                    cashSelectionPopup.setArguments(mArgs);
                     cashSelectionPopup.show(getFragmentManager(), "CASH SELECTION");
                 }
                 else {
