@@ -11,9 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".PaymentSelectionPopup" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +20,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".testActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MainMenuActivity" />
+        <activity android:name=".PaymentSelectionPopup" />
+        <activity android:name=".SalesReportActivity"></activity>
     </application>
 
 </manifest>

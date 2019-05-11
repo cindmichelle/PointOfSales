@@ -27,7 +27,9 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -117,9 +119,7 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
             pDialog.setTitleText("Success!")
                     .setContentText("Transaksi berhasil!")
                     .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-//            Intent intent;
-//            intent = new Intent(context, testActivity.class);
-//            startActivity(intent);
+
             Intent intent = new Intent();
             intent.setAction("move_activity");
             intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
@@ -141,10 +141,16 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
             context.unregisterReceiver(uploadDataCompleteReceiver);
             Bundle args = intent.getBundleExtra("BUNDLE");
             ArrayList<Product> orders = (ArrayList<Product>)  args.getSerializable("orderList");
+
+            Calendar calendar = Calendar.getInstance();
+            Date dateAndTime = calendar.getTime();
+
+
             Map<String, Object> docData = new HashMap<>();
-            docData.put("transaksi", orders);
+            docData.put("orderDetails", orders);
+            docData.put("date", dateAndTime);
             Log.d(this.getClass().toString(),"masuk broadcast transaksi");
-            db.collection("transaksi").add(docData);
+            db.collection("orders").add(docData);
         }
     };
 }
