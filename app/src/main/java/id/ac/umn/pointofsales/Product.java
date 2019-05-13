@@ -1,8 +1,10 @@
 package id.ac.umn.pointofsales;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
-public class Product implements Serializable{
+public class Product implements Serializable, Comparable<Product>{
     private String id;
     private String name;
     private int price;
@@ -17,6 +19,14 @@ public class Product implements Serializable{
         this.price = price;
         this.imageUrl = imageUrl;
         this.qty = 0;
+    }
+
+    public Product(String name, String imageUrl, int price, int qty) {
+        this.id = "";
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.qty = qty;
     }
 
     public String getId() {
@@ -61,5 +71,10 @@ public class Product implements Serializable{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public int compareTo(@NonNull Product product) {
+        return 0;
     }
 }

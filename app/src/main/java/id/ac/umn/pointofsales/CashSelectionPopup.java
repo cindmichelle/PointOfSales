@@ -11,11 +11,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -27,8 +31,11 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -39,11 +46,16 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
 
     Button confirmBtn;
     Button cancelBtn;
+    TextView shouldPay;
+    TextView change;
+    EditText paidEditText;
+
     private ArrayList<Product> products = new ArrayList<>();
     IntentFilter intentFilter;
     SweetAlertDialog pDialog;
     boolean sukses;
     boolean complete = false;
+    int changes;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -61,6 +73,41 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
 
         confirmBtn = popUpDialog.findViewById(R.id.confirm_cash_selection_btn);
         cancelBtn = popUpDialog.findViewById(R.id.cancel_cash_selection_btn);
+        paidEditText = popUpDialog.findViewById(R.id.paidEditText);
+        shouldPay = popUpDialog.findViewById(R.id.shouldPayText);
+        change = popUpDialog.findViewById(R.id.changeText);
+
+
+        Bundle args = getArguments();
+        final int totalPayment = args.getInt("totalPayment");
+        shouldPay.setText(String.format(Locale.US, "Rp %,d.00", totalPayment));
+        changes = 0;
+        changes = 0 - totalPayment;
+        shouldPay.setText(String.format(Locale.US, "Rp %,d.00", totalPayment));
+
+        paidEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(paidEditText.getText().toString().matches("")){
+                    changes = -totalPayment;
+                }
+                else{
+                    int paids = Integer.parseInt(paidEditText.getText().toString());
+                    changes = paids - totalPayment;
+                }
+                change.setText(String.format(Locale.US, "Rp %,d.00", changes));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         intentFilter = new IntentFilter();
         intentFilter.addAction("konfirmasi_data");
@@ -117,9 +164,7 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
             pDialog.setTitleText("Success!")
                     .setContentText("Transaksi berhasil!")
                     .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-//            Intent intent;
-//            intent = new Intent(context, testActivity.class);
-//            startActivity(intent);
+
             Intent intent = new Intent();
             intent.setAction("move_activity");
             intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
@@ -141,10 +186,16 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
             context.unregisterReceiver(uploadDataCompleteReceiver);
             Bundle args = intent.getBundleExtra("BUNDLE");
             ArrayList<Product> orders = (ArrayList<Product>)  args.getSerializable("orderList");
+
+            Calendar calendar = Calendar.getInstance();
+            Date dateAndTime = calendar.getTime();
+
+
             Map<String, Object> docData = new HashMap<>();
-            docData.put("transaksi", orders);
+            docData.put("orderDetails", orders);
+            docData.put("date", dateAndTime);
             Log.d(this.getClass().toString(),"masuk broadcast transaksi");
-            db.collection("transaksi").add(docData);
+            db.collection("orders").add(docData);
         }
     };
 }

@@ -9,11 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements FragmentMenu.FragmentListener {
 
@@ -77,7 +72,8 @@ public class MainActivity extends AppCompatActivity implements FragmentMenu.Frag
         @Override
         public void onReceive(Context context, Intent intent) {
             unregisterReceiver(moveActivity);
-            Intent i = new Intent(MainActivity.this, testActivity.class);
+            Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
+            finish();
             startActivity(i);
         }
     };
