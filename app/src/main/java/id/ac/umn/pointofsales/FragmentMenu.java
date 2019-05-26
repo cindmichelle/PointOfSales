@@ -1,6 +1,7 @@
 package id.ac.umn.pointofsales;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,7 +22,7 @@ public class FragmentMenu extends Fragment{
     private CardView beverageMenu;
     private LinearLayout foodMenuBorder;
     private LinearLayout beverageMenuBorder;
-
+    int selected = 1;
     private FragmentListener listener;
 
     interface FragmentListener {
@@ -31,7 +32,7 @@ public class FragmentMenu extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menus, container, false);
-
+        selected = 1;
         foodMenu = view.findViewById(R.id.food_btn);
         beverageMenu= view.findViewById(R.id.beverage_btn);
 
@@ -42,18 +43,25 @@ public class FragmentMenu extends Fragment{
         foodMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                foodMenuBorder.setBackgroundResource(R.drawable.menu_clicked_border);
-                beverageMenuBorder.setBackgroundResource(R.drawable.menu_border);
-                listener.onButtonClicked("food");
+                if(selected == 0){
+                    selected = 1;
+                    foodMenuBorder.setBackgroundResource(R.drawable.menu_clicked_border);
+                    beverageMenuBorder.setBackgroundResource(R.drawable.menu_border);
+                    listener.onButtonClicked("food");
+                }
             }
         });
 
         beverageMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                foodMenuBorder.setBackgroundResource(R.drawable.menu_border);
-                beverageMenuBorder.setBackgroundResource(R.drawable.menu_clicked_border);
-                listener.onButtonClicked("beverage");
+                if(selected == 1){
+                    selected = 0;
+                    foodMenuBorder.setBackgroundResource(R.drawable.menu_border);
+                    beverageMenuBorder.setBackgroundResource(R.drawable.menu_clicked_border);
+                    listener.onButtonClicked("beverage");
+                }
+
             }
         });
         return view;

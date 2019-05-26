@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="20dp"
+    android:background="@drawable/card_border">
+    <TextView
+        android:id="@+id/record_id"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:textColor="#000"
+        android:text="Name"/>
+    <TextView
+        android:id="@+id/record_date"
+        android:textColor="#000"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:text="Age"/>
+    <TextView
+        android:textColor="#000"
+        android:id="@+id/record_total"
+        android:fontFamily="serif"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_weight="1"
+        android:text="Position"/>
+</LinearLayout>

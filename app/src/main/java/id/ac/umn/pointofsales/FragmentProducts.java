@@ -40,12 +40,17 @@ public class FragmentProducts extends Fragment implements Serializable {
 
     private RecyclerView recyclerViewProducts;
     private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Product> foods = new ArrayList<>();
+    private ArrayList<Product> beverages = new ArrayList<>();
+
     private String menu;
     ArrayList<Product> orders = new ArrayList<>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BroadcastReceiver receiver;
     IntentFilter intentFilter;
+    IntentFilter intentFilter2;
+    ProductsAdapter productsAdapter;
 
     @Nullable
     @Override
@@ -63,6 +68,8 @@ public class FragmentProducts extends Fragment implements Serializable {
 
         recyclerViewProducts.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
+
+
         return view;
     }
 
@@ -74,58 +81,105 @@ public class FragmentProducts extends Fragment implements Serializable {
 
         intentFilter = new IntentFilter();
         intentFilter.addAction("upload_data");
-
         getActivity().registerReceiver(mintaDataReceiver, intentFilter);
+
+
     }
 
     public void onChangeMenu(String text){
         this.menu = text;
         Log.d(TAG, "clicked 3, menu : " + text);
-        getBeveragesCollections();
+        getBeveragesCollections(text);
 
     }
 
-    private void getBeveragesCollections(){
+    private void getBeveragesCollections(String menuSelected){
+        if(menuSelected == "food") {
 
-        if(products.size() > 0) {
-            products.clear();
-        }
+            if(foods.size() == 0){
 
-        Query collectionReference = db.collection("menus").whereEqualTo("category", menu);
+                Query collectionReference = db.collection("menus").whereEqualTo("category", menu);
 
-        collectionReference.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            Log.d(TAG, "getBVC Fragment Product");
+                collectionReference.get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    Log.d(TAG, "getBVC Fragment Product");
 
-                            for(DocumentSnapshot document : task.getResult()){
-                                Product product = document.toObject(Product.class);
-                                product.setId(document.getId());
-                                product.setImageUrl(document.getString("image_url"));
-                                Log.d(TAG,"DER  " + product.getImageUrl());
-                                products.add(product);
+                                    for(DocumentSnapshot document : task.getResult()){
+                                        Product product = document.toObject(Product.class);
+                                        product.setId(document.getId());
+                                        product.setImageUrl(document.getString("image_url"));
+                                        Log.d(TAG,"DER  " + product.getImageUrl());
+
+                                        foods.add(product);
+                                    }
+
+                                    ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), foods, communication);
+                                    recyclerViewProducts.setAdapter(productsAdapter);
+
+                                }
                             }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.getMessage());
+                            }
+                        });
+            }
+            else {
+                ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), foods, communication);
+                recyclerViewProducts.setAdapter(productsAdapter);
+            }
+        }
+        else if(menuSelected == "beverage") {
 
-                            ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), products, communication);
-                            recyclerViewProducts.setAdapter(productsAdapter);
+            if(beverages.size() == 0){
 
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d(TAG, e.getMessage());
-                    }
-                });
+                Query collectionReference = db.collection("menus").whereEqualTo("category", menu);
+
+                collectionReference.get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful()){
+                                    Log.d(TAG, "getBVC Fragment Product");
+
+                                    for(DocumentSnapshot document : task.getResult()){
+                                        Product product = document.toObject(Product.class);
+                                        product.setId(document.getId());
+                                        product.setImageUrl(document.getString("image_url"));
+
+                                        Log.d(TAG,"DER  " + product.getImageUrl());
+                                        beverages.add(product);
+                                    }
+
+                                    ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), beverages, communication);
+                                    recyclerViewProducts.setAdapter(productsAdapter);
+
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, e.getMessage());
+                            }
+                        });
+            }
+            else {
+                productsAdapter = new ProductsAdapter(getContext(), beverages, communication);
+                recyclerViewProducts.setAdapter(productsAdapter);
+            }
+        }
     }
 
     ProductsAdapter.FragmentCommunication communication = new ProductsAdapter.FragmentCommunication(){
 
         @Override
-        public void onButtonClicked(String id, String name, int price,  int plusMinus) {
+        public void onButtonClicked(String id, String name, int price,  int plusMinus, int position) {
             Bundle bundle = new Bundle();
 
             Product order;
@@ -133,22 +187,52 @@ public class FragmentProducts extends Fragment implements Serializable {
             order.setId(id);
 
             if(orders.size() > 0){
+                Log.d(this.getClass().toString(),"orders id fragment product : " + orders.get(0).getId());
+                Log.d(this.getClass().toString(),"order  id fragment product : " + order.getId());
+
                 for(int i = 0; i < orders.size(); i++){
-                    if(orders.get(i).getId() == order.getId()){
+                    if(orders.get(i).getId().equals(order.getId())){
                         if(orders.get(i).getQty() > 0 && plusMinus == 1){
                             orders.get(i).plusQty();
+                            if(menu == "food"){
+                                foods.get(position).plusQty();
+                            }
+                            else if (menu == "beverage"){
+                                beverages.get(position).plusQty();
+                            }
+
                         }
                         else if(orders.get(i).getQty() > 0 && plusMinus == 0) {
                             orders.get(i).minusQty();
+                            if(menu == "food"){
+                                foods.get(position).minusQty();
+                            }
+                            else if (menu == "beverage"){
+                                beverages.get(position).minusQty();
+                            }
                             if(orders.get(i).getQty() == 0){
                                 orders.remove(i);
+                                if(menu == "food"){
+                                    foods.get(position).setQty(0);
+                                }
+                                else if (menu == "beverage"){
+                                    beverages.get(position).setQty(0);
+                                }
                             }
                         }
                         break;
                     }
-                    else if(i == (orders.size() - 1) && orders.get(i).getId() != order.getId() && plusMinus == 1){
+                    else if((i == (orders.size() - 1)) && (!orders.get(i).getId().equals(order.getId())) && (plusMinus == 1)){
+                        Log.d(this.getClass().toString(),"masuk sni fragment product : ");
+
                         order.plusQty();
                         orders.add(order);
+                        if(menu == "food"){
+                            foods.get(position).plusQty();
+                        }
+                        else if (menu == "beverage"){
+                            beverages.get(position).plusQty();
+                        }
                         break;
                     }
                 }
@@ -157,9 +241,15 @@ public class FragmentProducts extends Fragment implements Serializable {
                 if(plusMinus == 1){
                     order.plusQty();
                     orders.add(order);
+                    if(menu == "food"){
+                        foods.get(position).plusQty();
+                    }
+                    else if (menu == "beverage"){
+                        beverages.get(position).plusQty();
+                    }
                 }
             }
-            Log.d(this.getClass().toString(),"Size : " + orders.size());
+            Log.d(this.getClass().toString(),"Size fragment product : " + orders.size());
 
             bundle.putSerializable("DATA", orders);
 
@@ -189,4 +279,5 @@ public class FragmentProducts extends Fragment implements Serializable {
             Log.d(this.getClass().toString(),"Masuk ke broadcast product5");
         }
     };
+
 }

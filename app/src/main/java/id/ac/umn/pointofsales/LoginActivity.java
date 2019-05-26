@@ -51,8 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("userInfo", Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("username", "user");
-        editor.putString("password", "useruser");
+        editor.putString("username", "poemcafe.mobile.chs@gmail.com");
+        editor.putString("password", "adminpos");
         editor.apply();
 
         Toast.makeText(this, "SharedPref saved!", Toast.LENGTH_SHORT).show();
