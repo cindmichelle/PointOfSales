@@ -8,4 +8,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorSecondary">#EC463A</color>
     <color name="colorOrange">#FFD2560E</color>
+    <color name="colorSelectedGray">#B5B5B5</color>
+    <color name="colorBorderGray">#808080</color>
 </resources>
