@@ -1,6 +1,10 @@
 package id.ac.umn.pointofsales;
 
 import android.content.Intent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,7 +37,9 @@ import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,7 +76,6 @@ public class ChartActivity extends AppCompatActivity {
         anyChartView = findViewById(R.id.any_chart_view);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
 
-
         Date startDates = new Date(getIntent().getLongExtra("startDates", -1));
         Date endDates = new Date(getIntent().getLongExtra("endDates", -1));
 
@@ -94,16 +99,6 @@ public class ChartActivity extends AppCompatActivity {
 
                 for (int i = 0; i < orderIds.size(); i++) {
                     final int z = orderIds.size();
-
-
-                    db.collection("orders").document(orderIds.get(i)).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot document, @Nullable FirebaseFirestoreException e) {
-                            ArrayList<HashMap<String, Object>> order = (ArrayList<HashMap<String, Object>>) document.get("orderDetails");
-                            ord.clear();
-                            int total = 0;
-                            for (int j = 0; j < order.size(); j++) {
-
                                 String name = order.get(j).get("name").toString();
                                 String qtys = order.get(j).get("qty").toString();
                                 int qty = Integer.parseInt(qtys);
@@ -111,7 +106,6 @@ public class ChartActivity extends AppCompatActivity {
                                 int price = Integer.parseInt(prices);
                                 String imageUrl = order.get(j).get("imageUrl").toString();
                                 Product orderData = new Product(name, imageUrl, price, qty);
-
 
                                 Log.d(this.getClass().toString(), "sales1 iterasij : " + j);
 
@@ -126,6 +120,7 @@ public class ChartActivity extends AppCompatActivity {
                                         if (orderData.getName().equals(productTotalQty.get(k).getName())) {
                                             Log.d(this.getClass().toString(), "sales1 masuk jugafak");
 
+
                                             int totalQty;
 
 
@@ -135,7 +130,6 @@ public class ChartActivity extends AppCompatActivity {
                                             break;
                                         } else if ((k == (size - 1)) && !(orderData.getName().equals(productTotalQty.get(k).getName()))) {
                                             Log.d(this.getClass().toString(), "sales1 nyemplung uy size : " + size);
-
                                             productTotalQty.add(orderData);
                                             break;
                                         }
@@ -160,11 +154,7 @@ public class ChartActivity extends AppCompatActivity {
                             makeChart();
                         }
                     });
-
-
                 }
-
-
             }
         });
     }
@@ -205,11 +195,13 @@ public class ChartActivity extends AppCompatActivity {
             data.clear();
 
             for (int i = 0; i < productTotalQty.size(); i++) {
+
                 data.add(new ValueDataEntry(productTotalQty.get(i).getName(), productTotalQty.get(i).getQty()));
             }
 
             set = Set.instantiate();
             set.data(data);
+
 
 
             Column column = cartesian.column(data);
@@ -230,10 +222,12 @@ public class ChartActivity extends AppCompatActivity {
                     .offsetX(0d)
                     .offsetY(5d)
                     .format("{%Value}{groupsSeparator: }")
+
                     .fontColor("#FFFFFF");
 
             cartesian.animation(true);
             cartesian.title("Menu Ordered");
+
 
             cartesian.yScale().minimum(0d);
 

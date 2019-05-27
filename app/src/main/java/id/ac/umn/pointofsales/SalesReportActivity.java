@@ -1,5 +1,6 @@
 package id.ac.umn.pointofsales;
 
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -36,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +46,6 @@ import java.util.List;
 public class SalesReportActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
 
     ArrayList<Product> orderDetail = new ArrayList<Product>();
-
     ArrayList<Product> ord = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Set set;
@@ -65,11 +67,11 @@ public class SalesReportActivity extends AppCompatActivity implements DatePicker
     Date endDates;
     int selected = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sales_report);
-
 
         selectStartDate = findViewById(R.id.select_start_date);
         selectEndDate = findViewById(R.id.select_end_date);
@@ -263,6 +265,7 @@ public class SalesReportActivity extends AppCompatActivity implements DatePicker
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
 
     }
 }

@@ -89,6 +89,7 @@
                     android:layout_height="wrap_content"
                     android:hint="0"
                     android:inputType="number"/>
+
             </LinearLayout>
         </LinearLayout>
         <View android:background="#000"
