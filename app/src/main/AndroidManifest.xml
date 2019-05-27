@@ -8,11 +8,14 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
         <activity
             android:name=".LoginActivity"
+            android:label="L O G I N"
+
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,10 +23,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".MainMenuActivity" />
+
+        <activity
+            android:name=".MainActivity"
+            android:label="M E N U"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".MainMenuActivity"
+            android:label="M A I N  M E N U"
+            android:screenOrientation="landscape" />
         <activity android:name=".PaymentSelectionPopup" />
-        <activity android:name=".SalesReportActivity"></activity>
+        <activity
+            android:name=".SalesReportActivity"
+            android:label="S A L E S  R E P O R T"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ChartActivity"
+            android:label="S A L E S  R E P O R T"
+            android:screenOrientation="landscape" />
+        <activity android:name=".DetailsReportActivity"
+            android:label="S A L E S  R E P O R T"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

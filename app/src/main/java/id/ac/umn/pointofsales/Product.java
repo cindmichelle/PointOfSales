@@ -57,6 +57,8 @@ public class Product implements Serializable, Comparable<Product>{
         return qty;
     }
 
+    public void setQty(int qty){this.qty = qty;}
+
     public void minusQty() {
         this.qty--;
     }

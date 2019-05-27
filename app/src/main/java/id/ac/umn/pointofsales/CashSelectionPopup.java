@@ -162,14 +162,20 @@ public class CashSelectionPopup extends DialogFragment implements Serializable{
 
         protected void onPostExecute(String result){
             pDialog.setTitleText("Success!")
-                    .setContentText("Transaksi berhasil!")
-                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                    .setContentText("Transaksi berhasil!").setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                Intent intent = new Intent();
 
-            Intent intent = new Intent();
             intent.setAction("move_activity");
             intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
             Log.d(this.getClass().toString(),"isi context : " + context);
             context.sendBroadcast(intent);
+                }
+            })
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
+
 
         }
     }

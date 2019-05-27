@@ -87,7 +87,9 @@
                     android:id="@+id/paidEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="0"/>
+                    android:hint="0"
+                    android:inputType="number"/>
+
             </LinearLayout>
         </LinearLayout>
         <View android:background="#000"
@@ -115,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="viewEnd"
                 android:fontFamily="sans-serif-light"
-                android:text="Rp 1,000.00" />
+                android:text="Rp 0.00" />
 
         </LinearLayout>
         <View android:background="#000"
